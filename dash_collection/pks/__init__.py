@@ -126,7 +126,8 @@ def init_dashboard(server):
     # define app layout:
     app.layout = html.Div([
 
-        dbc.Container([
+        dbc.Container(style={"paddingTop": "50px"},
+                      children=[
             
             dcc.Store(id="keystore", data=[]),
 
@@ -138,7 +139,9 @@ def init_dashboard(server):
                     xs={"size": 12},
                     lg={"size": 6, "offset": 3},
                 ),
-                ], style={"backgroundColor": "rgba(50,50,255, .1)"},
+                ], style={"backgroundColor": "rgba(50,50,255, .1)",
+                          "paddingTop": "50px",
+                          },
             ),
 
             # browsing area
