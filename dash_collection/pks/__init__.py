@@ -264,7 +264,9 @@ def init_dashboard(server):
                     md_post_ts,
                     xs={"size": 12},
                     lg={"size": 6, "offset": 3}
-                )
+                ),
+                style={"backgroundColor": "rgba(0,0,0,.1)",
+                       "paddingTop": "30px"}
             ),
 
             # row: Footer
