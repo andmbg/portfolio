@@ -331,11 +331,10 @@ def init_callbacks(app, data_bund, data_raw):
     @app.callback(
         Output("keystore", "data", allow_duplicate=True),
         State("keystore", "data"),
-        Input("reset", "n_clicks"),
         Input("fig-key-presence", "clickData"),
         prevent_initial_call=True
     )
-    def update_keystore(keyselection_old, reset_trigger, click_presence):
+    def update_keystore(keyselection_old, click_presence):
 
         if click_presence:
             key_selection_new = keyselection_old
