@@ -182,7 +182,7 @@ def get_sunburst(df, colormap):
         maxdepth=2,
     ).update_layout(margin=dict(t=15, r=15, b=15, l=15),
                     plot_bgcolor="#ffffff",
-                    paper_bgcolor="rgba(255,255,255,0)",
+                    paper_bgcolor="rgba(255,255,255,.7)",
                     height=700
                     ).update_traces(hovertemplate=hovertemplate,
                                     leaf_opacity=1,
@@ -385,11 +385,14 @@ def get_ts_clearance(df):
                                   bordercolor="black",
                                   borderwidth=0.5),
                       font_size=18,
-                      title="Jahresvergleich Fälle und Aufklärung"
-                      )
+                      title="Jahresvergleich Fälle und Aufklärung",
+                      xaxis_fixedrange=True,
+                      xaxis_rangeslider_visible=False,
+    )
 
     fig.update_yaxes(gridcolor="rgba(.5,.5,.5,.5)",
-                     range=[0, maxheight*1.2])
+                     range=[0, maxheight*1.2],
+    )
 
     return fig
 
@@ -618,7 +621,6 @@ def empty_plot(placeholder_text: str = "Hier könnte Ihre Werbung stehen!"):
     fig.update_layout(
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,.1)",
-        title="Fälle je 100.000 Einwohner:innen im Ländervergleich"
     )
 
     fig.update_xaxes(

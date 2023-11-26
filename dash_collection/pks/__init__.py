@@ -98,13 +98,22 @@ def init_dashboard(server):
         )
     )
 
+    # Intro text
+    with open("dash_collection/pks/src/prose/intro.md", "r") as file:
+        md_intro = dcc.Markdown(file.read())
+    
     # Prose between the selector area and clearance timeseries:
     with open("dash_collection/pks/src/prose/post_selection_pre_clearance.md", "r") as file:
         md_post_selection = dcc.Markdown(file.read())
 
     # Prose between the two timeseries:
     with open("dash_collection/pks/src/prose/post_clearance_pre_states.md", "r") as file:
+        md_between_ts = dcc.Markdown(file.read())
+    
+    # Text following dashboard:
+    with open("dash_collection/pks/src/prose/post_states.md", "r") as file:
         md_post_ts = dcc.Markdown(file.read())
+        
 
     #                                   Layout
     # -----------------------------------------------------------------------------
@@ -118,13 +127,22 @@ def init_dashboard(server):
     app.layout = html.Div([
 
         dbc.Container([
+            
+            dcc.Store(id="keystore", data=[]),
 
             # Intro
-            dbc.Row(),
+            dbc.Row([
+                dbc.Col([
+                    md_intro
+                    ],
+                    xs={"size": 12},
+                    lg={"size": 6, "offset": 3},
+                ),
+                ], style={"backgroundColor": "rgba(50,50,255, .1)"},
+            ),
 
             # browsing area
             dbc.Row([
-                dcc.Store(id="keystore", data=[]),
                 dbc.Col([
                     dbc.Tabs([
                         dbc.Tab(
@@ -207,7 +225,7 @@ def init_dashboard(server):
             dbc.Row([
                 dbc.Col(
                     dbc.Collapse(
-                        md_post_ts,
+                        md_between_ts,
                         id="collapsible-post_ts",
                         is_open=True,
                     ),
@@ -237,6 +255,15 @@ def init_dashboard(server):
                     fig_ts_states,
                     width=12,
                     style={"backgroundColor": "rgba(255,100,0,.1)"},
+                )
+            ),
+            
+            # post-dashboard text
+            dbc.Row(
+                dbc.Col(
+                    md_post_ts,
+                    xs={"size": 12},
+                    lg={"size": 6, "offset": 3}
                 )
             ),
 
@@ -378,8 +405,8 @@ def init_callbacks(app, data_bund, data_raw):
         fig = get_ts_clearance(df_ts)
 
         return fig
-
-
+    
+    
     # Update state timeseries from keystore
     # -------------------------------------
     @app.callback(Output("fig-ts-states", "figure"),
