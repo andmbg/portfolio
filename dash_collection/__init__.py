@@ -14,11 +14,11 @@ def init_app():
 
     with app.app_context():
         # Import parts of our core Flask app
-        from . import routes
-        from .assets import compile_static_assets
+        import routes
+        from assets import compile_static_assets
 
         # Import Dash application
-        from .pks import init_dashboard as init_pks
+        from .pks.pks import init_dashboard as init_pks
         # from ... import init_dashboard as init_... <<< so gehts weiter
 
         app = init_pks(app)

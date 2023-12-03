@@ -10,7 +10,7 @@ def home():
         "index.jinja2",
         title="List of routes",
         template="home-template",
-        # description="More routes will appear here when extending the app.",
-        # body="This is a homepage served with Flask.",
+        description="More routes will appear here when extending the app.",
+        body="This is a homepage served with Flask.",
         base_url=request.base_url,
     )
