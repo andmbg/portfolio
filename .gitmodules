@@ -1,3 +1,6 @@
 [submodule "dash_collection/pks"]
 	path = dash_collection/pks
 	url = https://github.com/andmbg/pks.git
+[submodule "dash_collection/wikimap"]
+	path = dash_collection/wikimap
+	url = git@github.com:andmbg/wikipedia-map.git

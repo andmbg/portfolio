@@ -19,10 +19,10 @@ def init_app():
 
         # Import Dash application
         from .pks.pks import init_dashboard as init_pks
-        # from ... import init_dashboard as init_... <<< so gehts weiter
+        from .wikimap.wikimap import init_dashboard as init_wikimap
 
         app = init_pks(app)
-        # app = init_...(app) <<< weiter
+        app = init_wikimap(app)
 
         # Compile static assets
         compile_static_assets(assets)
