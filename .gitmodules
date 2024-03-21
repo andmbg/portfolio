@@ -1,0 +1,3 @@
+[submodule "dashapps/pks"]
+	path = dashapps/pks
+	url = https://github.com/andmbg/pks.git
