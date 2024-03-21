@@ -21,9 +21,3 @@ def dashapp2_init(flask_app, route):
         return 'You\'ve entered "{}"'.format(input_value)
 
     return dash_app
-
-
-if __name__ == "__main__":
-    flask_app = Flask(__name__)
-    dash_app = dashapp2_init(flask_app, "/")
-    dash_app.run_server(debug=True)
