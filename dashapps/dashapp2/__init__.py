@@ -2,11 +2,8 @@ from flask import Flask
 from dash import Dash, dcc, html
 from dash.dependencies import Input, Output
 
-from dashapps.with_metadata import with_metadata
 
-
-@with_metadata(title="Dash App Dos", route="/dashapp2/")
-def init(flask_app, route):
+def dashapp2_init(flask_app, route):
     dash_app = Dash(server=flask_app, routes_pathname_prefix=route)
 
     dash_app.layout = html.Div(
@@ -28,5 +25,5 @@ def init(flask_app, route):
 
 if __name__ == "__main__":
     flask_app = Flask(__name__)
-    dash_app = init(flask_app)
+    dash_app = dashapp2_init(flask_app, "/")
     dash_app.run_server(debug=True)

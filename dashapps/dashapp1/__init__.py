@@ -2,11 +2,8 @@ from flask import Flask
 from dash import Dash, dcc, html
 from dash.dependencies import Input, Output
 
-from dashapps.with_metadata import with_metadata
 
-
-@with_metadata(title="Dash App Uno", route="/dashapp1/")
-def init(flask_app, route):
+def dashapp1_init(flask_app, route):
     dash_app = Dash(server=flask_app, routes_pathname_prefix=route)
 
     dash_app.layout = html.Div(
@@ -27,6 +24,9 @@ def init(flask_app, route):
 
 
 if __name__ == "__main__":
+    """
+    It's possible to call this app individually. This is useful for testing.
+    """
     flask_app = Flask(__name__)
-    dash_app = init(flask_app)
+    dash_app = dashapp1_init(flask_app, "/")
     dash_app.run_server(debug=True)

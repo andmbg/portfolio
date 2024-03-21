@@ -1,6 +1,6 @@
 from flask import Flask, render_template
-import dashapps.dashapp1
-import dashapps.dashapp2
+import dashapps.interface_dashapp1
+import dashapps.interface_dashapp2
 import dashapps.pks.pks
 
 flask_app = Flask(__name__)
@@ -14,8 +14,8 @@ def index():
     )  # This is your main page with header and footer
 
 
-dashapps.dashapp1.init(flask_app)
-dashapps.dashapp2.init(flask_app)
+dashapps.interface_dashapp1.init(flask_app)
+dashapps.interface_dashapp2.init(flask_app)
 dashapps.pks.pks.init_dashboard(flask_app)
 
 
