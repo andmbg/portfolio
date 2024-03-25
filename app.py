@@ -19,7 +19,7 @@ def index():
         "Contact": "/contact",
     }
 
-    posts = {}
+    posts = []
 
     # Iterate through interface files
     for module_name in dir(dashapps):
@@ -29,19 +29,16 @@ def index():
                 metadata = module.metadata
                 route = metadata.get("route")
                 if route:
-                    posts[route] = metadata
+                    posts += [metadata]
 
-    
-    def get_routes():
-        routes = [str(rule) for rule in flask_app.url_map.iter_rules() if rule.endpoint.startswith('index')]
-        return routes
-
-    print(get_routes())
+    for post in posts:
+        print(post.get("route", "(route)") + post.get("thumbnail", "(thumb)"))
 
     return render_template(
         "index.html",
-        content="Lorem ipsum",
+        intro="Lorem ipsum",
         nav_entries=nav_entries,
+        posts=posts,
     )
 
 
