@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{% block title %}My App{% endblock %}</title>
+    <link rel="stylesheet" href="/static/bootstrap-5.0.2-dist/css/bootstrap.min.css">
+    <style>
+        nav {
+            border: 1px solid rgba(255, 0, 0, 0.5);
+        }
+    </style>
+
+</head>
+
+<body style="background-image: url('path/to/your/image.jpg'); background-repeat: repeat;">
+    <header>
+        <nav class="container navbar navbar-expand-lg navbar-light bg</body>-light">
+            <a class="navbar-brand" href="#">My Logo</a>
+            <ul class="nav">
+                {% for name, url in nav_entries.items() %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url }}">{{ name }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </nav>
+    </header>
+
+    {% block main %}
+    {% endblock %}
+
+    <footer class="bg-light mt-4">
+        <div class="container">
+            <p class="text-center">This is the index footer.</p>
+        </div>
+    </footer>
+
+    <script src="/static/bootstrap-5.0.2-dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

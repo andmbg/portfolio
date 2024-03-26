@@ -1,20 +1,17 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{title}}</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.1/dist/flatly/bootstrap.min.css">
-</head>
+{% extends "base.html" %}
+
+{% block title %}{{title}}{% endblock %}
+
 <body>
     <header>
         <b>This is the header for dashapps</b>
     </header>
 
+    {% block main %}
     <main>
-        <div id='dash-container'>
-            <!-- Dash app will be inserted here -->
-            {%app_entry%}
-        </div>
+    {%app_entry%}
     </main>
+    {% endblock %}
 
     <footer>
         <b>This is the dashapp footer</b>
