@@ -9,15 +9,17 @@
 
     {% block main %}
     <main>
-    {%app_entry%}
+    {{ "{%app_entry%}" }}
     </main>
     {% endblock %}
 
     <footer>
         <b>This is the dashapp footer</b>
     </footer>
-    {%config%}
-    {%scripts%}
-    {%renderer%}
+    {% block post %}
+    {{ "{%config%}" }}
+    {{ "{%scripts%}" }}
+    {{ "{%renderer%}" }}
+    {% endblock %}
 </body>
 </html>
