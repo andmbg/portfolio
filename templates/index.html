@@ -14,7 +14,7 @@
             <div class="col-10 offset-{{ post.get('offset', 0) }}">
                     <div class="card" style="width:50%;margin-top:100px;rotate:{{ post.get('rotation') }}deg;margin-left:{{ post.get('side_shift') }};box-shadow:30px 30px 70px 0px #0006;">
                         <a href="{{ url_for(post.get('route')) }}">
-                            <img class="card-img-top" src="data:image/png;base64, {{ post.get('thumbnail') }}" alt="Card image">
+                            <img class="card-img-top" src="data:image/png;base64, {{ post.get('thumbnail_img') }}" alt="Card image">
                         </a>
                         <div class="card-body">
                         <a href="{{ url_for(post.get('route')) }}">

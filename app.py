@@ -2,68 +2,92 @@ import base64
 import os
 from flask import Flask, render_template
 
-import dashapps.interface_dashapp1
-import dashapps.interface_dashapp2
-import dashapps.interface_pks
 from dashapps.pks.pks import init_dashboard
 from dashapps.pks.metadata import metadata as metadata_pks
+from dashapps.dashapp1 import dashapp1_init
+from dashapps.dashapp1.metadata import metadata as metadata_dashapp1
+from dashapps.dashapp2 import dashapp2_init
+from dashapps.dashapp2.metadata import metadata as metadata_dashapp2
+
+
+def read_png_file(file_path):
+    """
+    Return content of a png file as base64.
+    """
+    if file_path is None:
+        return None
+
+    with open(file_path, "rb") as file:
+        png_content = base64.b64encode(file.read()).decode("utf-8")
+    return png_content
 
 
 flask_app = Flask(__name__)
 
-dashapps.interface_dashapp1.init(flask_app)
-dashapps.interface_dashapp2.init(flask_app)
-pksapp = init_dashboard(flask_app, "/pks/")
 
 nav_entries = {
     "Home": "/",
     "Contact": "/contact",
 }
 
+# NOTE: Wahrscheinlich müssen die Apps in ein Dict, dessen Werte ich als Variableninhalte behandeln kann, damit ich darüber iterieren kann.
+# NOTE: + die Metadaten könnten in die __init__ der Dash-Apps verschoben werden, das spart beim Import.
+
+# Initialize the Dash apps:
+db1app = dashapp1_init(flask_app, metadata_dashapp1.get("route"))
+db2app = dashapp2_init(flask_app, metadata_dashapp2.get("route"))
+pksapp = init_dashboard(flask_app, metadata_pks.get("route"))
+
+# For each Dash app, set the index_string to the content of the template file:
 with flask_app.test_request_context("/?name=test"):
     pksapp.index_string = render_template(
-        "dashapp.html",
-        nav_entries=nav_entries,
-        title="Polizeiliche Kriminalstatistik"
+        "dashapp.html", nav_entries=nav_entries, title="Polizeiliche Kriminalstatistik"
+    )
+with flask_app.test_request_context("/?name=test"):
+    db1app.index_string = render_template(
+        "dashapp.html", nav_entries=nav_entries, title="Dash App 1"
+    )
+with flask_app.test_request_context("/?name=test"):
+    db2app.index_string = render_template(
+        "dashapp.html", nav_entries=nav_entries, title="Dash App 2"
     )
 
+
+# Define the index route:
 @flask_app.route("/")
 def index():
 
     posts = []
-
-    def read_png_file(file_path):
-        if file_path is None:
-            return None
-
-        with open(file_path, "rb") as file:
-            png_content = base64.b64encode(file.read()).decode("utf-8")
-        return png_content
-
-    # Iterate through interface files
-    for module_name in dir(dashapps):
-        if module_name.startswith("interface_"):
-            module = getattr(dashapps, module_name)
-            if hasattr(module, "metadata"):
-                metadata = module.metadata
-                route = metadata.get("route")
-                thumbnailpath = metadata.get("thumbnail")
-
-                if thumbnailpath:
-                    metadata["thumbnail"] = read_png_file(
-                        "dashapps"
-                        + metadata.get("route", "")
-                        + metadata.get("thumbnail", "")
-                    )
-                else:
-                    metadata["thumbnail"] = read_png_file("static/none.png")
-
-                if route:
-                    posts += [metadata]
+    posts.append(
+        {
+            "title": metadata_pks.get("title", "Default title"),
+            "route": metadata_pks.get("route", "/default/"),
+            "thumbnail_img": read_png_file(
+                "dashapps/pks/" + metadata_pks.get("thumbnail", None)
+            ),
+            "synopsis": metadata_pks.get("synopsis", "Default synopsis"),
+        }
+    )
+    posts.append(
+        {
+            "title": metadata_dashapp1.get("title", "Default title"),
+            "route": metadata_dashapp1.get("route", "/default/"),
+            "thumbnail_img": read_png_file(metadata_dashapp1.get("thumbnail", None)),
+            "synopsis": metadata_dashapp1.get("synopsis", "Default synopsis"),
+        }
+    )
+    posts.append(
+        {
+            "title": metadata_dashapp2.get("title", "Default title"),
+            "route": metadata_dashapp2.get("route", "/default/"),
+            "thumbnail_img": read_png_file(metadata_dashapp2.get("thumbnail", None)),
+            "synopsis": metadata_dashapp2.get("synopsis", "Default synopsis"),
+        }
+    )
 
     # add a small rotation and side shift to each post:
     for i, post in enumerate(posts):
-        post["rotation"] = (2*(i % 2) - 1) * 3
+        post["rotation"] = (2 * (i % 2) - 1) * 3
         post["offset"] = [2, 5, 1, 4, 3][i % 5]
 
     return render_template(
