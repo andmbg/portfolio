@@ -3,6 +3,12 @@ from dash import Dash, dcc, html
 from dash.dependencies import Input, Output
 
 
+metadata_dashapp1 = {
+    "title": "Dash App Uno",
+    "route": "/dashapp1/",
+}
+
+
 def dashapp1_init(flask_app, route):
     dash_app = Dash(server=flask_app, routes_pathname_prefix=route)
 
