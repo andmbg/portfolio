@@ -1,3 +1,6 @@
 [submodule "dashapps/pks"]
 	path = dashapps/pks
 	url = https://github.com/andmbg/pks.git
+[submodule "dashapps/elternsein"]
+	path = dashapps/elternsein
+	url = https://github.com/andmbg/elternsein.git

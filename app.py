@@ -24,23 +24,20 @@ nav_entries = {
 }
 
 # Import and define apps from submodules here:
-from dashapps.pks.pks import init_dashboard
+from dashapps.pks.pks import init_dashboard as init_pks
 from dashapps.pks import metadata as metadata_pks
-from dashapps.dashapp1 import dashapp1_init, metadata_dashapp1
-from dashapps.dashapp2 import dashapp2_init, metadata_dashapp2
+
+from dashapps.elternsein.elternsein import init_dashboard as init_elternsein
+from dashapps.elternsein import metadata as metadata_elternsein
 
 apps = [
     {
-        "app": init_dashboard(flask_app, metadata_pks.get("route", "default")),
+        "app": init_pks(flask_app, metadata_pks.get("route", "default")),
         "metadata": metadata_pks,
     },
     {
-        "app": dashapp1_init(flask_app, metadata_dashapp1.get("route", "default")),
-        "metadata": metadata_dashapp1,
-    },
-    {
-        "app": dashapp2_init(flask_app, metadata_dashapp2.get("route", "default")),
-        "metadata": metadata_dashapp2,
+        "app": init_elternsein(flask_app, metadata_elternsein.get("route", "default")),
+        "metadata": metadata_elternsein,
     },
 ]
 
