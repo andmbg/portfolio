@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "portfolio-website"
+version = "0.1.0"
+description = ""
+authors = ["Andreas Domberg <andom@posteo.de>"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.11"
+geopandas = "^0.14.4"
+pandas = "^2.2.2"
+dash = "^2.17.0"
+dash-bootstrap-components = "^1.6.0"
+dash-bootstrap-templates = "^1.1.2"
+flask = "^3.0.3"
+matplotlib = "^3.8.4"
+colormath = "^3.0.0"
+pyarrow = "^16.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
