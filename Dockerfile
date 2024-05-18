@@ -9,6 +9,10 @@ COPY . .
 # Initialize and update submodules
 RUN git submodule update --init --recursive
 
+WORKDIR /app/dashapps/elternsein
+RUN git checkout HEAD~3
+WORKDIR /app
+
 COPY requirements.txt .
 RUN pip3 install -r requirements.txt
 
