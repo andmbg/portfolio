@@ -19,6 +19,7 @@ RUN pip3 install -r requirements.txt
 
 EXPOSE 8080
 ENV FLASK_APP=app.py
+ENV FLASK_ENV=development
 
 CMD [ "python3", "-m" , "app"]
 
