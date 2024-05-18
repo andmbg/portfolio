@@ -16,7 +16,7 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip3 install -r requirements.txt
 
-EXPOSE 8080
+EXPOSE 5000
 ENV FLASK_APP=app.py
 ENV FLASK_ENV=development
 
