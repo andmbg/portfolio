@@ -11,7 +11,6 @@ RUN git submodule update --init --recursive
 
 WORKDIR /app/dashapps/elternsein
 RUN git checkout troubleshoot
-RUN git checkout HEAD~1
 WORKDIR /app
 
 COPY requirements.txt .
