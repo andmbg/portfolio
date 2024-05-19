@@ -4,6 +4,10 @@
 <head>
     <title>{% block title %}My App{% endblock %}</title>
     <link rel="stylesheet" href="/static/bootstrap-5.0.2-dist/css/bootstrap.min.css">
+    {% block custom_css %}
+        <link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
+    {% endblock %}
+
     <style>
         nav {
             border: 1px solid rgba(255, 0, 0, 0.5);
@@ -12,7 +16,7 @@
 
 </head>
 
-<body style="background-image: url('path/to/your/image.jpg'); background-repeat: repeat;">
+<body>
     <header>
         <nav class="container navbar navbar-expand-lg navbar-light bg</body>-light">
             <a class="navbar-brand" href="#">My Logo</a>
