@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
-{% block title %}Huhu!!!{% endblock %}
+{% block title %}functionalviz: Understanding is beautiful.{% endblock %}
 
 {% block main %}
     <main class="container mt-4">
         <div class="row">
-            <div class="col-10 offset-1">
-                {{ intro }}
+            <div class="col-8 offset-2 para">
+                {{ intro | safe }}
             </div>
         </div>
         {% for post in posts %}
@@ -22,7 +22,7 @@
                         </a>
                         <p class="card-text">
 
-                            {{ post.get('synopsis', 'keine Zusammenfassung') }}
+                            {{ post.get('synopsis', 'keine Zusammenfassung') | safe }}
 
                         </p>
                         </div>

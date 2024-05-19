@@ -1,6 +1,8 @@
 import base64
 import os
+
 from flask import Flask, render_template
+import markdown
 
 
 def read_png_file(file_path):
@@ -19,8 +21,8 @@ flask_app = Flask(__name__)
 
 
 nav_entries = {
-    "Home": "/",
-    "Contact": "/contact",
+    "Start": "/",
+    "Kontakt": "/contact",
 }
 
 # Import and define apps from submodules here:
@@ -70,6 +72,9 @@ for app_metadata in apps:
 # Define the index and the post entries:
 @flask_app.route("/")
 def index():
+    
+    with open("static/prose/intro.md", "r") as file:
+        intro = markdown.markdown(file.read())
 
     # add a small rotation and side shift to each post:
     for i, post in enumerate(posts):
@@ -78,9 +83,20 @@ def index():
 
     return render_template(
         "index.html",
-        intro="Lorem ipsum",
+        intro=intro,
         nav_entries=nav_entries,
         posts=posts,
+    )
+
+@flask_app.route("/contact")
+def contact():
+
+    with open("static/prose/contact.md", "r") as file:
+        prose = markdown.markdown(file.read())
+
+    return render_template(
+        "contact.html",
+        nav_entries=nav_entries,
     )
 
 

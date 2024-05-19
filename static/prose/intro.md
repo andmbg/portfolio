@@ -1,0 +1,1 @@
+Hier folgt eine Auswahl an Beispielen, wie nützliche, interessante oder tagespolitisch aktuelle Daten Gestalt angenommen haben. Für Fragen, Wünsche, Zweifel, Gratulation, Korrekturtipps und zur Heuerung empfiehlt sich die [Kontaktseite](/contact).

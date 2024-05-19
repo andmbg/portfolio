@@ -8,18 +8,12 @@
         <link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
     {% endblock %}
 
-    <style>
-        nav {
-            border: 1px solid rgba(255, 0, 0, 0.5);
-        }
-    </style>
-
 </head>
 
 <body>
     <header>
-        <nav class="container navbar navbar-expand-lg navbar-light bg</body>-light">
-            <a class="navbar-brand" href="#">My Logo</a>
+        <nav class="container navbar navbar-expand-lg navbar-light align-items-end">
+            <a class="navbar-brand" href="{{ '/' }}"><img src="{{ url_for('static', filename='img/logo.png')}}" height="150px"></a>
             <ul class="nav">
                 {% for name, url in nav_entries.items() %}
                 <li class="nav-item">
@@ -33,9 +27,9 @@
     {% block main %}
     {% endblock %}
 
-    <footer class="bg-light mt-4">
+    <footer>
         <div class="container">
-            <p class="text-center">This is the index footer.</p>
+            <p class="text-center">Autor: <a href="{{ '/contact' }}">A. Domberg</a> CC BY-NC-SA </p>
         </div>
     </footer>
     {% block post %}
