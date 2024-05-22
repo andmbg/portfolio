@@ -1,5 +1,6 @@
+from pathlib import Path
+import sys
 import base64
-import os
 
 from flask import Flask, render_template
 import markdown
@@ -24,6 +25,17 @@ nav_entries = {
     "Start": "/",
     "Kontakt": "/contact",
 }
+
+# Add base directory of pks
+pks_base_dir = Path(__file__).resolve().parent / 'dashapps' / 'pks'
+if pks_base_dir.exists() and str(pks_base_dir) not in sys.path:
+    sys.path.insert(0, str(pks_base_dir))
+
+# Add base directory of elternsein
+elternsein_base_dir = Path(__file__).resolve().parent / 'dashapps' / 'elternsein'
+if elternsein_base_dir.exists() and str(elternsein_base_dir) not in sys.path:
+    sys.path.insert(0, str(elternsein_base_dir))
+
 
 # Import and define apps from submodules here:
 from dashapps.pks.pks import init_dashboard as init_pks
