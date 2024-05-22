@@ -6,8 +6,43 @@
     <main class="container mt-4">
 
         <div class="row">
-            <div class="col-8 offset-2 para">
-                
+            <div class="col-8 offset-2 my-5">
+                <center>
+                    <img src="{{ url_for('static', filename='img/somebloke.jpg')}}" alt="" width="200px">
+                </center>
+            </div>
+        </div>
+        
+        <div class="row my-5">
+            <div class="col-4" style="text-align: center; margin-top: auto; margin-bottom: auto;">
+                <a href="https://www.linkedin.com/in/andreas-domberg-phd">
+                    <img src="{{ url_for('static', filename='img/linkedin.png')}}" width="50px">
+                </a>
+            </div>
+            <div class="col-6 para">
+                    Auf LinkedIn finden.
+            </div>
+        </div>
+
+        <div class="row my-5">
+            <div class="col-4" style="text-align: center; margin-top: auto; margin-bottom: auto;">
+                <a href="https://github.com/andmbg">
+                    <img src="{{ url_for('static', filename='img/github-mark.png')}}" width="50px">
+                </a>
+            </div>
+            <div class="col-6 para">
+                Teile meiner Arbeit sind auf gitHub. So auch diese Seite, erstellt in Python mit Flask, Plotly/Dash, Matplotlib, Pandas.
+            </div>
+        </div>
+
+        <div class="row my-5">
+            <div class="col-4" style="text-align: center; margin-top: auto; margin-bottom: auto;">
+                <a href="https://www.correlaid.org">
+                    <img src="{{ url_for('static', filename='img/CA_logo.png')}}" width="200px">
+                </a>
+            </div>
+            <div class="col-6 para" style="margin-top: auto; margin-bottom: auto;">
+                Data Science, um die Welt zu verändern.
             </div>
         </div>
 

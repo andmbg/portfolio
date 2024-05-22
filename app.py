@@ -91,9 +91,6 @@ def index():
 @flask_app.route("/contact")
 def contact():
 
-    with open("static/prose/contact.md", "r") as file:
-        prose = markdown.markdown(file.read())
-
     return render_template(
         "contact.html",
         nav_entries=nav_entries,
