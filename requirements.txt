@@ -32,6 +32,7 @@ Flask==2.2.5
 fonttools==4.51.0
 fsspec==2024.3.1
 geopandas==0.14.4
+gunicorn==22.0.0
 idna==3.4
 imageio==2.31.6
 importlib-metadata==6.8.0
