@@ -44,6 +44,9 @@ from dashapps.pks import metadata as metadata_pks
 from dashapps.elternsein.elternsein import init_dashboard as init_elternsein
 from dashapps.elternsein import metadata as metadata_elternsein
 
+from dashapps.stimmung.bundestag import init_dashboard as init_bundestag
+from dashapps.stimmung import metadata as metadata_bundestag
+
 apps = [
     {
         "app": init_pks(flask_app, metadata_pks.get("route", "default")),
@@ -52,6 +55,10 @@ apps = [
     {
         "app": init_elternsein(flask_app, metadata_elternsein.get("route", "default")),
         "metadata": metadata_elternsein,
+    },
+    {
+        "app": init_bundestag(flask_app, metadata_bundestag.get("route", "default")),
+        "metadata": metadata_bundestag,
     },
 ]
 
