@@ -4,6 +4,6 @@
 [submodule "dashapps/elternsein"]
 	path = dashapps/elternsein
 	url = https://github.com/andmbg/elternsein.git
-[submodule "dashapps/stimmung"]
-	path = dashapps/stimmung
+[submodule "dashapps/bundestag"]
+	path = dashapps/bundestag
 	url = https://github.com/andmbg/stimmung.git

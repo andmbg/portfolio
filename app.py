@@ -44,8 +44,8 @@ from dashapps.pks import metadata as metadata_pks
 from dashapps.elternsein.elternsein import init_dashboard as init_elternsein
 from dashapps.elternsein import metadata as metadata_elternsein
 
-from dashapps.stimmung.bundestag import init_dashboard as init_bundestag
-from dashapps.stimmung import metadata as metadata_bundestag
+from dashapps.bundestag.bundestag import init_dashboard as init_bundestag
+from dashapps.bundestag import metadata as metadata_bundestag
 
 apps = [
     {
