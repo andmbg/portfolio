@@ -7,3 +7,7 @@
 [submodule "dashapps/bundestag"]
 	path = dashapps/bundestag
 	url = https://github.com/andmbg/stimmung.git
+[submodule "dashapps/wikimap"]
+	path = dashapps/wikimap
+	url = https://github.com/andmbg/wikipedia-map.git
+	branch = portfolio

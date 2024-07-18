@@ -47,18 +47,25 @@ from dashapps.elternsein import metadata as metadata_elternsein
 from dashapps.bundestag.bundestag import init_dashboard as init_bundestag
 from dashapps.bundestag import metadata as metadata_bundestag
 
+from dashapps.wikimap.wikimap import init_dashboard as init_wikimap
+from dashapps.wikimap import metadata as metadata_wikimap
+
 apps = [
     {
         "app": init_pks(flask_app, metadata_pks.get("route", "default")),
         "metadata": metadata_pks,
     },
     {
-        "app": init_elternsein(flask_app, metadata_elternsein.get("route", "default")),
-        "metadata": metadata_elternsein,
-    },
-    {
         "app": init_bundestag(flask_app, metadata_bundestag.get("route", "default")),
         "metadata": metadata_bundestag,
+    },
+    {
+        "app": init_wikimap(flask_app, metadata_wikimap.get("route", "default")),
+        "metadata": metadata_wikimap,
+    },
+    {
+        "app": init_elternsein(flask_app, metadata_elternsein.get("route", "default")),
+        "metadata": metadata_elternsein,
     },
 ]
 
