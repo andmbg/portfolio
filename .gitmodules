@@ -1,13 +1,32 @@
-[submodule "dashapps/pks"]
-	path = dashapps/pks
+[submodule "pks_de"]
+	path = dashapps/de/pks
 	url = https://github.com/andmbg/pks.git
-[submodule "dashapps/elternsein"]
-	path = dashapps/elternsein
-	url = https://github.com/andmbg/elternsein.git
-[submodule "dashapps/bundestag"]
-	path = dashapps/bundestag
+	branch = main
+[submodule "pks_en"]
+	path = dashapps/en/pks
+	url = https://github.com/andmbg/pks.git
+	branch = main_en
+[submodule "bundestag_de"]
+	path = dashapps/de/bundestag
 	url = https://github.com/andmbg/stimmung.git
-[submodule "dashapps/wikimap"]
-	path = dashapps/wikimap
+	branch = main
+[submodule "bundestag_en"]
+	path = dashapps/en/bundestag
+	url = https://github.com/andmbg/stimmung.git
+	branch = main_en
+[submodule "wikimap_en"]
+	path = dashapps/en/wikimap
+	url = https://github.com/andmbg/wikipedia-map.git
+	branch = portfolio_en
+[submodule "wikimap_de"]
+	path = dashapps/de/wikimap
 	url = https://github.com/andmbg/wikipedia-map.git
 	branch = portfolio
+[submodule "elternsein_de"]
+	path = dashapps/de/elternsein
+	url = https://github.com/andmbg/elternsein.git
+	branch = main
+[submodule "elternsein_en"]
+	path = dashapps/en/elternsein
+	url = https://github.com/andmbg/elternsein.git
+	branch = main_en
