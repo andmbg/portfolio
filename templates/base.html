@@ -25,8 +25,8 @@
                         {{ language_names[current_language] }}
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="languageDropdown">
-                        <li><a class="dropdown-item" href="{{ url_for('set_language', lang='en') }}">English</a></li>
-                        <li><a class="dropdown-item" href="{{ url_for('set_language', lang='de') }}">Deutsch</a></li>
+                        <li><a class="dropdown-item" href="{{ language_urls['en'] }}">{{ language_names['en'] }}</a></li>
+                        <li><a class="dropdown-item" href="{{ language_urls['de'] }}">{{ language_names['de'] }}</a></li>
                     </ul>
                 </li>
             </ul>

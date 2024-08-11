@@ -4,6 +4,8 @@ import markdown
 import base64
 
 
+LANGUAGE_NAMES = {"en": "English", "de": "Deutsch"}
+
 def read_png_file(file_path):
     if file_path is None:
         return None
@@ -20,6 +22,11 @@ def create_app():
         "Kontakt": "/contact",
     }
 
+    language_urls = {
+        'en': f"/set_language/en",
+        'de': f"/set_language/de"
+    }
+
     app_dirs = [
         # "pks",
         # "bundestag",
@@ -33,6 +40,18 @@ def create_app():
             module = importlib.import_module(f"dashapps.{lang}.{app_dir}.{app_dir}")
             metadata = importlib.import_module(f"dashapps.{lang}.{app_dir}").metadata
             dash_app = module.init_dashboard(app, metadata.get("route", f"/{app_dir}/"))
+
+            # modify apps to contain the dashapp template:
+            with app.test_request_context("/?name=test"):
+                dash_app.index_string = render_template(
+                    "dashapp.html",
+                    title=metadata.get("title", "default title"),
+                    nav_entries=nav_entries,
+                    language_names=LANGUAGE_NAMES,
+                    current_language=lang,
+                    language_urls=language_urls,
+                )
+
             dash_apps[lang].append({"app": dash_app, "metadata": metadata})
 
     @app.before_request
@@ -69,7 +88,8 @@ def create_app():
             posts=posts,
             nav_entries=nav_entries,
             current_language=g.language,
-            language_names={"en": "English", "de": "Deutsch"},
+            language_names=LANGUAGE_NAMES,
+            language_urls=language_urls,
         )
 
     @app.route("/contact")
@@ -78,13 +98,14 @@ def create_app():
             f"contact_{g.language}.html",
             nav_entries=nav_entries,
             current_language=g.language,
-            language_names={"en": "English", "de": "Deutsch"},
+            language_names=LANGUAGE_NAMES,
+            language_urls=language_urls,
         )
 
     @app.route("/set_language/<lang>")
     def set_language(lang):
         session["language"] = lang
-        return redirect(request.referrer or url_for("index"))
+        return redirect(request.referrer or url_for("index", _external=True))
 
     return app
 
