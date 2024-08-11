@@ -1,127 +1,94 @@
-from pathlib import Path
-import sys
-import base64
-
-from flask import Flask, render_template
+import importlib
+from flask import Flask, render_template, request, session, url_for, redirect, g
 import markdown
+import base64
 
 
 def read_png_file(file_path):
-    """
-    Return content of a png file as base64.
-    """
     if file_path is None:
         return None
-
     with open(file_path, "rb") as file:
-        png_content = base64.b64encode(file.read()).decode("utf-8")
-    return png_content
+        return base64.b64encode(file.read()).decode("utf-8")
 
 
-flask_app = Flask(__name__)
+def create_app():
+    app = Flask(__name__)
+    app.secret_key = "your_secret_key_here"
 
+    nav_entries = {
+        "Start": "/",
+        "Kontakt": "/contact",
+    }
 
-nav_entries = {
-    "Start": "/",
-    "Kontakt": "/contact",
-}
+    app_dirs = [
+        # "pks",
+        # "bundestag",
+        "wikimap",
+        "elternsein",
+    ]
+    dash_apps = {"en": [], "de": []}
 
-# Add base directory of pks
-pks_base_dir = Path(__file__).resolve().parent / 'dashapps' / 'pks'
-if pks_base_dir.exists() and str(pks_base_dir) not in sys.path:
-    sys.path.insert(0, str(pks_base_dir))
+    for lang in ["en", "de"]:
+        for app_dir in app_dirs:
+            module = importlib.import_module(f"dashapps.{lang}.{app_dir}.{app_dir}")
+            metadata = importlib.import_module(f"dashapps.{lang}.{app_dir}").metadata
+            dash_app = module.init_dashboard(app, metadata.get("route", f"/{app_dir}/"))
+            dash_apps[lang].append({"app": dash_app, "metadata": metadata})
 
-# Add base directory of elternsein
-elternsein_base_dir = Path(__file__).resolve().parent / 'dashapps' / 'elternsein'
-if elternsein_base_dir.exists() and str(elternsein_base_dir) not in sys.path:
-    sys.path.insert(0, str(elternsein_base_dir))
+    @app.before_request
+    def before_request():
+        if "language" not in session:
+            session["language"] = request.accept_languages.best_match(
+                ["en", "de"], default="en"
+            )
+        g.language = session["language"]
 
+    @app.route("/")
+    def index():
+        with open(f"static/prose/{g.language}/intro.md", "r") as file:
+            intro = markdown.markdown(file.read())
 
-# Import and define apps from submodules here:
-from dashapps.pks.pks import init_dashboard as init_pks
-from dashapps.pks import metadata as metadata_pks
+        posts = []
+        for i, app_md in enumerate(dash_apps[g.language]):
 
-from dashapps.elternsein.elternsein import init_dashboard as init_elternsein
-from dashapps.elternsein import metadata as metadata_elternsein
+            metadata = app_md["metadata"]
 
-from dashapps.bundestag.bundestag import init_dashboard as init_bundestag
-from dashapps.bundestag import metadata as metadata_bundestag
+            post = {
+                "title": metadata.get(f"title", "Default title"),
+                "route": metadata.get("route", "/default/"),
+                "thumbnail_img": read_png_file(metadata.get("thumbnail", None)),
+                "synopsis": metadata.get(f"synopsis", "Default synopsis"),
+                "rotation": (2 * (i % 2) - 1) * 3,
+                "offset": [2, 5, 1, 4, 3][i % 5],
+            }
+            posts.append(post)
 
-from dashapps.wikimap.wikimap import init_dashboard as init_wikimap
-from dashapps.wikimap import metadata as metadata_wikimap
-
-apps = [
-    {
-        "app": init_pks(flask_app, metadata_pks.get("route", "default")),
-        "metadata": metadata_pks,
-    },
-    {
-        "app": init_bundestag(flask_app, metadata_bundestag.get("route", "default")),
-        "metadata": metadata_bundestag,
-    },
-    {
-        "app": init_wikimap(flask_app, metadata_wikimap.get("route", "default")),
-        "metadata": metadata_wikimap,
-    },
-    {
-        "app": init_elternsein(flask_app, metadata_elternsein.get("route", "default")),
-        "metadata": metadata_elternsein,
-    },
-]
-
-posts = []
-
-for app_metadata in apps:
-
-    app = app_metadata["app"]
-    metadata = app_metadata["metadata"]
-
-    # modify apps to contain the dashapp template:
-    with flask_app.test_request_context("/?name=test"):
-        app.index_string = render_template(
-            "dashapp.html",
+        return render_template(
+            "index.html",
+            intro=intro,
+            posts=posts,
             nav_entries=nav_entries,
-            title=metadata.get("title", "default title"),
+            current_language=g.language,
+            language_names={"en": "English", "de": "Deutsch"},
         )
 
-    # define thumbnail entries in posts list:
-    posts.append(
-        {
-            "title": metadata.get("title", "Default title"),
-            "route": metadata.get("route", "/default/"),
-            "thumbnail_img": read_png_file(metadata.get("thumbnail", None)),
-            "synopsis": metadata.get("synopsis", "Default synopsis"),
-        }
-    )
+    @app.route("/contact")
+    def contact():
+        return render_template(
+            f"contact_{g.language}.html",
+            nav_entries=nav_entries,
+            current_language=g.language,
+            language_names={"en": "English", "de": "Deutsch"},
+        )
 
+    @app.route("/set_language/<lang>")
+    def set_language(lang):
+        session["language"] = lang
+        return redirect(request.referrer or url_for("index"))
 
-# Define the index and the post entries:
-@flask_app.route("/")
-def index():
-    
-    with open("static/prose/intro.md", "r") as file:
-        intro = markdown.markdown(file.read())
-
-    # add a small rotation and side shift to each post:
-    for i, post in enumerate(posts):
-        post["rotation"] = (2 * (i % 2) - 1) * 3
-        post["offset"] = [2, 5, 1, 4, 3][i % 5]
-
-    return render_template(
-        "index.html",
-        intro=intro,
-        nav_entries=nav_entries,
-        posts=posts,
-    )
-
-@flask_app.route("/contact")
-def contact():
-
-    return render_template(
-        "contact.html",
-        nav_entries=nav_entries,
-    )
+    return app
 
 
 if __name__ == "__main__":
-    flask_app.run(host="0.0.0.0", port=5000, debug=True)
+    app = create_app()
+    app.run(host="0.0.0.0", port=5000, debug=True)

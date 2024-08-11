@@ -1,32 +1,32 @@
-[submodule "pks_de"]
+[submodule "dashapps/de/pks"]
 	path = dashapps/de/pks
 	url = https://github.com/andmbg/pks.git
 	branch = main
-[submodule "pks_en"]
+[submodule "dashapps/en/pks"]
 	path = dashapps/en/pks
 	url = https://github.com/andmbg/pks.git
 	branch = main_en
-[submodule "bundestag_de"]
+[submodule "dashapps/de/bundestag"]
 	path = dashapps/de/bundestag
 	url = https://github.com/andmbg/stimmung.git
 	branch = main
-[submodule "bundestag_en"]
+[submodule "dashapps/en/bundestag"]
 	path = dashapps/en/bundestag
 	url = https://github.com/andmbg/stimmung.git
 	branch = main_en
-[submodule "wikimap_en"]
-	path = dashapps/en/wikimap
-	url = https://github.com/andmbg/wikipedia-map.git
-	branch = portfolio_en
-[submodule "wikimap_de"]
+[submodule "dashapps/de/wikimap"]
 	path = dashapps/de/wikimap
 	url = https://github.com/andmbg/wikipedia-map.git
 	branch = portfolio
-[submodule "elternsein_de"]
+[submodule "dashapps/en/wikimap"]
+	path = dashapps/en/wikimap
+	url = https://github.com/andmbg/wikipedia-map.git
+	branch = portfolio_en
+[submodule "dashapps/de/elternsein"]
 	path = dashapps/de/elternsein
 	url = https://github.com/andmbg/elternsein.git
 	branch = main
-[submodule "elternsein_en"]
+[submodule "dashapps/en/elternsein"]
 	path = dashapps/en/elternsein
 	url = https://github.com/andmbg/elternsein.git
 	branch = main_en
