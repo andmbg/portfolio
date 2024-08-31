@@ -25,7 +25,7 @@
 [submodule "dashapps/de/elternsein"]
 	path = dashapps/de/elternsein
 	url = https://github.com/andmbg/elternsein.git
-	branch = main
+	branch = portfolio
 [submodule "dashapps/en/elternsein"]
 	path = dashapps/en/elternsein
 	url = https://github.com/andmbg/elternsein.git

@@ -28,10 +28,10 @@ def create_app():
     }
 
     app_dirs = [
-        # "pks",
-        # "bundestag",
-        "wikimap",
-        "elternsein",
+        "bundestag",  # ?
+        "pks",  # works
+        "wikimap",  # works
+        "elternsein",  # works
     ]
     dash_apps = {"en": [], "de": []}
 
