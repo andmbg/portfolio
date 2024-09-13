@@ -6,6 +6,7 @@ import base64
 
 LANGUAGE_NAMES = {"en": "English", "de": "Deutsch"}
 
+
 def read_png_file(file_path):
     if file_path is None:
         return None
@@ -22,23 +23,22 @@ def create_app():
         "Kontakt": "/contact",
     }
 
-    language_urls = {
-        'en': f"/set_language/en",
-        'de': f"/set_language/de"
-    }
+    language_urls = {"en": f"/set_language/en", "de": f"/set_language/de"}
 
     app_dirs = [
         "bundestag",  # ?
-        "pks",  # works
-        "wikimap",  # works
-        "elternsein",  # works
+        # "pks",  # works
+        # "wikimap",  # works
+        # "elternsein",  # works
     ]
     dash_apps = {"en": [], "de": []}
 
     for lang in ["en", "de"]:
         for app_dir in app_dirs:
             module = importlib.import_module(f"dashapps.{lang}.{app_dir}.{app_dir}")
-            metadata = importlib.import_module(f"dashapps.{lang}.{app_dir}").metadata
+            metadata = importlib.import_module(f"dashapps.{lang}.{app_dir}").metadata[
+                lang
+            ]
             dash_app = module.init_dashboard(app, metadata.get("route", f"/{app_dir}/"))
 
             # modify apps to contain the dashapp template:
