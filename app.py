@@ -26,10 +26,10 @@ def create_app():
     language_urls = {"en": f"/set_language/en", "de": f"/set_language/de"}
 
     app_dirs = [
-        "bundestag",  # ?
-        # "pks",  # works
-        # "wikimap",  # works
-        # "elternsein",  # works
+        "bundestag",
+        "pks",
+        "wikimap",
+        "elternsein",
     ]
     dash_apps = {"en": [], "de": []}
 
