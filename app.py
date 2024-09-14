@@ -33,13 +33,12 @@ def create_app():
     ]
     dash_apps = {"en": [], "de": []}
 
+
     for lang in ["en", "de"]:
         for app_dir in app_dirs:
             module = importlib.import_module(f"dashapps.{lang}.{app_dir}.{app_dir}")
-            metadata = importlib.import_module(f"dashapps.{lang}.{app_dir}").metadata[
-                lang
-            ]
-            dash_app = module.init_dashboard(app, metadata.get("route", f"/{app_dir}/"))
+            metadata = importlib.import_module(f"dashapps.{lang}.{app_dir}").metadata[lang]
+            dash_app = module.init_dashboard(app, f'/{lang}/{app_dir}/')
 
             # modify apps to contain the dashapp template:
             with app.test_request_context("/?name=test"):
@@ -53,6 +52,25 @@ def create_app():
                 )
 
             dash_apps[lang].append({"app": dash_app, "metadata": metadata})
+
+    @app.route("/<lang>/<app_name>/")
+    def render_dash_app(lang, app_name):
+        if lang not in ["en", "de"] or app_name not in app_dirs:
+            return redirect(url_for("index"))
+
+        dash_app = next(
+            (
+                app
+                for app in dash_apps[lang]
+                if app["metadata"]["route"].endswith(f"/{app_name}/")
+            ),
+            None,
+        )
+
+        if dash_app:
+            return dash_app["app"].index()
+        else:
+            return redirect(url_for("index"))
 
     @app.before_request
     def before_request():
@@ -105,7 +123,14 @@ def create_app():
     @app.route("/set_language/<lang>")
     def set_language(lang):
         session["language"] = lang
-        return redirect(request.referrer or url_for("index", _external=True))
+        referrer = request.referrer
+        if referrer:
+            for app_dir in app_dirs:
+                if app_dir in referrer:
+                    return redirect(
+                        url_for("render_dash_app", lang=lang, app_name=app_dir)
+                    )
+        return redirect(url_for("index"))
 
     return app
 
