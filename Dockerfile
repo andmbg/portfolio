@@ -1,22 +1,16 @@
-# syntax=docker/dockerfile:1
-
-FROM python:3.12.3-bookworm
+FROM python:3.12-slim
 
 WORKDIR /app
 
+# Copy requirements and install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
 COPY . .
 
-# Initialize and update submodules
-RUN git submodule update --init --recursive
-
-WORKDIR /app
-
-COPY requirements.txt .
-RUN pip3 install -r requirements.txt
-
+# Expose port
 EXPOSE 5000
-ENV FLASK_APP=app.py
-ENV FLASK_ENV=development
 
-CMD [ "python3", "-m" , "app"]
-
+# Run the app
+CMD ["python", "app.py"]
