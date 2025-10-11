@@ -12,40 +12,54 @@ services:
       - podology
     networks:
       - portfolio_net
+    restart: unless-stopped
 
   portfolio:
-    image: portfolio_app:latest
+    image: ghcr.io/andmbg/portfolio/portfolio:latest
     container_name: portfolio
+    env_file:
+      - .env  # Only secrets loaded from here
     environment:
+      # Non-sensitive configuration
       - FLASK_DEBUG=0
       - FLASK_ENV=production
+      - PORT=5000
+      - HOST=0.0.0.0
     expose:
       - "5000"
     command: >
       gunicorn -k gthread --workers 2 --threads 8 --timeout 60 --bind 0.0.0.0:5000 wsgi:flask_app
     networks:
       - portfolio_net
+    restart: unless-stopped
 
   pks:
-    image: pks-dashboard
+    image: ghcr.io/andmbg/portfolio/pks:latest
     container_name: pks
     expose:
       - "8080"
+    env_file:
+      - .env  # Only secrets loaded from here
     environment:
+      # Non-sensitive configuration
       - DASH_URL_PREFIX=/pks/
-      - DONT_LOAD_DASH_DEV_TOOLS=1   # <- add this
+      - DONT_LOAD_DASH_DEV_TOOLS=1
       - DASH_DEBUG=0
       - DASH_ENV=production
       - FLASK_ENV=production
       - FLASK_DEBUG=0
+      - PORT=8080
     networks:
       - portfolio_net
+    restart: unless-stopped
 
   podology-elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.15.2
+    env_file:
+      - .env  # Gets ELASTIC_PASSWORD from here
     environment:
+      # Non-sensitive configuration
       - discovery.type=single-node
-      - ELASTIC_PASSWORD=06h1yvYGw6mtZ9Ex3K+FfBuksHGdp1UC
       - xpack.security.enabled=false
       - xpack.security.http.ssl.enabled=false
     expose:
@@ -61,6 +75,7 @@ services:
       retries: 5
     networks:
       - portfolio_net
+    restart: unless-stopped
 
   podology-redis:
     image: redis:7
@@ -68,16 +83,20 @@ services:
       - "6379"
     networks:
       - portfolio_net
+    restart: unless-stopped
 
   podology:
-    image: podology-app:latest
+    image: ghcr.io/andmbg/portfolio/podology:latest
     container_name: podology
     depends_on:
       podology-elasticsearch:
         condition: service_healthy
       podology-redis:
         condition: service_started
+    env_file:
+      - .env  # Only secrets loaded from here
     environment:
+      # Non-sensitive configuration
       - ELASTICSEARCH_HOST=podology-elasticsearch
       - ELASTICSEARCH_PORT=9200
       - REDIS_HOST=podology-redis
@@ -86,13 +105,15 @@ services:
       - EMBEDDER_MODEL=multi-qa-mpnet-base-dot-v1
       - EMBEDDER_DIMS=768
       - DASH_URL_PREFIX=/podology/
+      - DASH_DEBUG=0
+      - DASH_ENV=production
     expose:
       - "8080"
     volumes:
-      - ../podology/data:/app/data
-    restart: unless-stopped
+      - ./data/podology:/app/data
     networks:
       - portfolio_net
+    restart: unless-stopped
 
 networks:
   portfolio_net:

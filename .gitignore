@@ -9,3 +9,6 @@ build/
 .vscode/
 *.log
 logindata.py
+.env
+.env.local
+.env.production
