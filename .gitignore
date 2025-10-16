@@ -1,14 +1,7 @@
 *.pyc
 *.pyo
 __pycache__/
-venv/
 env/
-dist/
-build/
-*.egg-info/
-.vscode/
 *.log
-logindata.py
 .env
-.env.local
-.env.production
+data/

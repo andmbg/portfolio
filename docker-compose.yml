@@ -5,7 +5,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx.dev.conf:/etc/nginx/nginx.conf:ro
     depends_on:
       - portfolio
       - pks
@@ -14,7 +14,7 @@ services:
       - portfolio_net
 
   portfolio:
-    image: portfolio_app:latest
+    image: ghcr.io/andmbg/portfolio/portfolio:latest
     container_name: portfolio
     environment:
       - FLASK_DEBUG=0
@@ -27,7 +27,7 @@ services:
       - portfolio_net
 
   pks:
-    image: pks-dashboard
+    image: ghcr.io/andmbg/pks/pks:latest
     container_name: pks
     expose:
       - "8080"
@@ -70,7 +70,7 @@ services:
       - portfolio_net
 
   podology:
-    image: podology-app:latest
+    image: ghcr.io/andmbg/podology/podology:latest
     container_name: podology
     depends_on:
       podology-elasticsearch:
@@ -78,6 +78,8 @@ services:
       podology-redis:
         condition: service_started
     environment:
+      - DATA_ROOT=/app/data
+      - PODOLOGY_DATA=/app/data/podology
       - ELASTICSEARCH_HOST=podology-elasticsearch
       - ELASTICSEARCH_PORT=9200
       - REDIS_HOST=podology-redis
@@ -89,7 +91,8 @@ services:
     expose:
       - "8080"
     volumes:
-      - ../podology/data:/app/data
+      - ./data/podology:/app/data
+      - "./data/podology/Knowledge Fight/wordclouds:/app/podology/assets/wordclouds"
     restart: unless-stopped
     networks:
       - portfolio_net
