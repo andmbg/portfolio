@@ -17,7 +17,7 @@ services:
     restart: unless-stopped
 
   portfolio:
-    image: ghcr.io/andmbg/portfolio/portfolio:latest
+    image: ghcr.io/andmbg/portfolio:latest
     container_name: portfolio
     env_file:
       - .env  # Only secrets loaded from here
@@ -36,7 +36,7 @@ services:
     restart: unless-stopped
 
   pks:
-    image: ghcr.io/andmbg/pks/pks:latest
+    image: ghcr.io/andmbg/pks:latest
     container_name: pks
     expose:
       - "8080"
@@ -88,7 +88,7 @@ services:
     restart: unless-stopped
 
   podology:
-    image: ghcr.io/andmbg/podology/podology:latest
+    image: ghcr.io/andmbg/podology:latest
     container_name: podology
     depends_on:
       podology-elasticsearch:
