@@ -3,7 +3,7 @@ import os
 APPS_METADATA = {
     "pks": {
         "title": {
-            "de": "Polizeiliche Kriminalstatistik (PKS)",
+            "de": "Die Polizeiliche Kriminalstatistik (PKS)",
             "en": "Police Crime Statistics (PKS)"
         },
         "synopsis": {
