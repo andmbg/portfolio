@@ -69,7 +69,7 @@ services:
     networks:
       - portfolio_net
 
-  podology:
+  podology-app:
     image: ghcr.io/andmbg/podology:latest
     container_name: podology
     depends_on:
@@ -92,7 +92,6 @@ services:
       - "8080"
     volumes:
       - ./data/podology:/app/data
-      - "./data/podology/Knowledge Fight/wordclouds:/app/podology/assets/wordclouds"
     restart: unless-stopped
     networks:
       - portfolio_net
