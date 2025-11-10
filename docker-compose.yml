@@ -9,7 +9,7 @@ services:
     depends_on:
       - portfolio
       - pks
-      - podology
+      - podology-app
     networks:
       - portfolio_net
 
@@ -43,9 +43,10 @@ services:
 
   podology-elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.15.2
+    env_file:
+      - .env
     environment:
       - discovery.type=single-node
-      - ELASTIC_PASSWORD=06h1yvYGw6mtZ9Ex3K+FfBuksHGdp1UC
       - xpack.security.enabled=false
       - xpack.security.http.ssl.enabled=false
     expose:
@@ -71,7 +72,8 @@ services:
 
   podology-app:
     image: ghcr.io/andmbg/podology:latest
-    container_name: podology
+    env_file:
+      - .env
     depends_on:
       podology-elasticsearch:
         condition: service_healthy
@@ -85,8 +87,6 @@ services:
       - REDIS_HOST=podology-redis
       - REDIS_PORT=6379
       - PORT=8080
-      - EMBEDDER_MODEL=multi-qa-mpnet-base-dot-v1
-      - EMBEDDER_DIMS=768
       - DASH_URL_PREFIX=/podology/
     expose:
       - "8080"
@@ -96,9 +96,48 @@ services:
     networks:
       - portfolio_net
 
+  podology-worker:
+    image: ghcr.io/andmbg/podology:latest
+    env_file:
+      - .env
+    depends_on:
+      podology-elasticsearch:
+        condition: service_healthy
+      podology-redis:
+        condition: service_started
+    environment:
+      - DATA_ROOT=/app/data
+      - ELASTICSEARCH_HOST=podology-elasticsearch
+      - ELASTICSEARCH_PORT=9200
+      - REDIS_HOST=podology-redis
+      - REDIS_PORT=6379
+    volumes:
+      - ./data/podology:/app/data
+      - huggingface-cache:/app/.cache/huggingface
+    restart: unless-stopped
+    networks:
+      - portfolio_net
+
+  podology-embedder:
+    image: ghcr.io/andmbg/embedder:latest
+    env_file:
+      - .env
+    expose:
+      - "19000"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:19000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - portfolio_net
+
 networks:
   portfolio_net:
     driver: bridge
 
 volumes:
   elasticsearch-data:
+  huggingface-cache:
