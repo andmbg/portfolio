@@ -20,9 +20,8 @@ services:
     image: ghcr.io/andmbg/portfolio:latest
     container_name: portfolio
     env_file:
-      - .env  # Only secrets loaded from here
+      - .env
     environment:
-      # Non-sensitive configuration
       - FLASK_DEBUG=0
       - FLASK_ENV=production
     expose:
@@ -47,9 +46,9 @@ services:
       - DASH_ENV=production
       - FLASK_ENV=production
       - FLASK_DEBUG=0
-    command: >
-      gunicorn -k gthread --workers 2 --threads 8 --timeout 60
-      --bind 0.0.0.0:8080 app:app.server
+    # command: >  # wait till we installed gunicorn in pks
+    #   gunicorn -k gthread --workers 2 --threads 8 --timeout 60
+    #   --bind 0.0.0.0:8080 app:app.server
     networks:
       - portfolio_net
     restart: unless-stopped
