@@ -12,16 +12,16 @@ APPS_METADATA = {
         },
         "thumbnail": "static/img/preview_pks.png",
     },
-    "podology": {
+    "glasspod": {
         "title": {
-            "de": "Podology: Tiefenanalyse von Podcasts",
-            "en": "Podology: In-Depth Analysis of Podcasts"
+            "de": "Glasspod: Tiefenanalyse von Podcasts",
+            "en": "Glasspod: In-Depth Analysis of Podcasts"
         },
         "synopsis": {
             "de": "Podcast-Analyse-Apps gibt es viele, doch normalerweise dienen sie dazu, Autor:innen von Podcasts Statistiken über ihre Hörer:innen zu liefern. Podology verfolgt einen anderen Ansatz: Es transkribiert und indiziert die Inhalte von Podcasts und macht sie durchsuchbar, sowohl auf der Textebene, als auch auf semantischer Ebene durch Einbindung von Sprachmodellen. So werden Podcasts als Informationsquelle oder Betrachtungsgegenstand transparent.",
             "en": "There are many podcast analysis apps, but they usually serve to provide authors with statistics about their listeners. Podology takes a different approach: It transcribes and indexes the content of podcasts and makes them searchable, both at the text- and the semantic level by integrating language models. In this way, podcasts become transparent as a source of information or subject of inquiry.",
         },
-        "thumbnail": "static/img/preview_podology.png",
+        "thumbnail": "static/img/preview_glasspod.png",
     },
     
 }
