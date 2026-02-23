@@ -1,6 +1,8 @@
 # Portfolio Project
 
-A comprehensive data science portfolio showcasing multiple projects and applications.
+My current data science / dashboarding portfolio showcasing a bunch of colorful shapes to represent plentiful data.
+
+See https://somethingsomethingdata.eu
 
 ## Features (more coming up)
 
