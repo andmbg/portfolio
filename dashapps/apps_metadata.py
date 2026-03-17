@@ -23,5 +23,15 @@ APPS_METADATA = {
         },
         "thumbnail": "static/img/preview_glasspod.png",
     },
-    
+    "isochrones": {
+        "title": {
+            "de": "Öffimeter: Wie weit kommt man in einer Stunde?",
+            "en": "Train ranger: How far can you get in an hour?"
+        },
+        "synopsis": {
+            "de": "Wie gut ist die Haltestelle deiner Wahl mit den Öffis angebunden? Wie weit kommt man in 15, 30, 60 Minuten? Diese interaktive Karte zeigt alle Haltesellen im Umkreis und verrät, wie lang es dorthin dauert. Für alle, die umziehen und sich fragen, ob es F-Hain sein muss, oder die Pendelei aus Köpenick nicht doch lohnt.",
+            "en": "How well connected is the train or bus stop we're looking at? How far can you get in 15, 30, 60 minutes? This interactive map shows all public transport stops around a given location and shows how long it takes to get there. A fun little tool for those who consider moving to the more peripheral neighborhoods and ask: How much of a commute is it?",
+        },
+        "thumbnail": "static/img/preview_isochrones.png",
+    },
 }

@@ -9,7 +9,8 @@ services:
     depends_on:
       - portfolio
       - pks
-      - podology-app
+      - isochrones
+      - glasspod-app
     networks:
       - portfolio_net
 
@@ -33,15 +34,25 @@ services:
       - "8080"
     environment:
       - DASH_URL_PREFIX=/pks/
-      - DONT_LOAD_DASH_DEV_TOOLS=1   # <- add this
+      - DONT_LOAD_DASH_DEV_TOOLS=1
       - DASH_DEBUG=0
       - DASH_ENV=production
       - FLASK_ENV=production
       - FLASK_DEBUG=0
     networks:
       - portfolio_net
+    
+  isochrones:
+    image: ghcr.io/andmbg/isochrones-berlin:latest
+    container_name: isochrones
+    expose:
+      - "8080"
+    environment:
+      - DASH_URL_PREFIX=/isochrones/
+    networks:
+      - portfolio_net
 
-  podology-elasticsearch:
+  glasspod-elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.15.2
     env_file:
       - .env
@@ -63,62 +74,62 @@ services:
     networks:
       - portfolio_net
 
-  podology-redis:
+  glasspod-redis:
     image: redis:7
     expose:
       - "6379"
     networks:
       - portfolio_net
 
-  podology-app:
-    image: ghcr.io/andmbg/podology:latest
+  glasspod-app:
+    image: ghcr.io/andmbg/glasspod:latest
     env_file:
       - .env
     depends_on:
-      podology-elasticsearch:
+      glasspod-elasticsearch:
         condition: service_healthy
-      podology-redis:
+      glasspod-redis:
         condition: service_started
     environment:
       - DATA_ROOT=/app/data
-      - PODOLOGY_DATA=/app/data/podology
-      - ELASTICSEARCH_HOST=podology-elasticsearch
+      - GLASSPOD_DATA=/app/data/glasspod
+      - ELASTICSEARCH_HOST=glasspod-elasticsearch
       - ELASTICSEARCH_PORT=9200
-      - REDIS_HOST=podology-redis
+      - REDIS_HOST=glasspod-redis
       - REDIS_PORT=6379
       - PORT=8080
-      - DASH_URL_PREFIX=/podology/
+      - DASH_URL_PREFIX=/glasspod/
     expose:
       - "8080"
     volumes:
-      - ./data/podology:/app/data
+      - ./data/glasspod:/app/data
     restart: unless-stopped
     networks:
       - portfolio_net
 
-  podology-worker:
-    image: ghcr.io/andmbg/podology:latest
+  glasspod-worker:
+    image: ghcr.io/andmbg/glasspod:latest
     env_file:
       - .env
     depends_on:
-      podology-elasticsearch:
+      glasspod-elasticsearch:
         condition: service_healthy
-      podology-redis:
+      glasspod-redis:
         condition: service_started
     environment:
       - DATA_ROOT=/app/data
-      - ELASTICSEARCH_HOST=podology-elasticsearch
+      - ELASTICSEARCH_HOST=glasspod-elasticsearch
       - ELASTICSEARCH_PORT=9200
-      - REDIS_HOST=podology-redis
+      - REDIS_HOST=glasspod-redis
       - REDIS_PORT=6379
     volumes:
-      - ./data/podology:/app/data
+      - ./data/glasspod:/app/data
       - huggingface-cache:/app/.cache/huggingface
     restart: unless-stopped
     networks:
       - portfolio_net
 
-  podology-embedder:
+  glasspod-embedder:
     image: ghcr.io/andmbg/embedder:latest
     env_file:
       - .env
