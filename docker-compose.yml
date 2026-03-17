@@ -49,6 +49,8 @@ services:
       - "8080"
     environment:
       - DASH_URL_PREFIX=/isochrones/
+    volumes:
+      - ./data/isochrones:/app/data
     networks:
       - portfolio_net
 

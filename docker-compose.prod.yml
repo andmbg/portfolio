@@ -11,6 +11,7 @@ services:
     depends_on:
       - portfolio
       - pks
+      - isochrones
       - glasspod-app
     networks:
       - portfolio_net
@@ -49,6 +50,19 @@ services:
     # command: >  # wait till we installed gunicorn in pks
     #   gunicorn -k gthread --workers 2 --threads 8 --timeout 60
     #   --bind 0.0.0.0:8080 app:app.server
+    networks:
+      - portfolio_net
+    restart: unless-stopped
+
+  isochrones:
+    image: ghcr.io/andmbg/isochrones-berlin:latest
+    container_name: isochrones
+    expose:
+      - "8080"
+    environment:
+      - DASH_URL_PREFIX=/isochrones/
+    volumes:
+      - ./data/isochrones:/app/data
     networks:
       - portfolio_net
     restart: unless-stopped
